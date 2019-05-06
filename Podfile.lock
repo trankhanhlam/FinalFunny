@@ -1,0 +1,30 @@
+PODS:
+  - Kanna (4.0.2)
+  - SideMenu (5.0.3)
+  - SlideMenuControllerSwift (4.0.0)
+  - SQLite.swift (0.11.5):
+    - SQLite.swift/standard (= 0.11.5)
+  - SQLite.swift/standard (0.11.5)
+
+DEPENDENCIES:
+  - Kanna
+  - SideMenu
+  - SlideMenuControllerSwift
+  - SQLite.swift
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Kanna
+    - SideMenu
+    - SlideMenuControllerSwift
+    - SQLite.swift
+
+SPEC CHECKSUMS:
+  Kanna: c60b61d72554bf04ed1ee074f9b379855cab4892
+  SideMenu: 1dcaabce84538c53325c287f7fe62999379a641c
+  SlideMenuControllerSwift: 021d6318201c53d4d4d3710517d43d6c556c7dd0
+  SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
+
+PODFILE CHECKSUM: 6d21eb778ceaa26a85fc82c51cb55ba323bae52d
+
+COCOAPODS: 1.6.1
