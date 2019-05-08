@@ -9,7 +9,8 @@
 import UIKit
 
 class MainView: UITabBarController {
-  
+    
+    @IBOutlet weak var tabbar: UITabBar!
     
     var topic: Topic? {
         didSet {
@@ -18,6 +19,22 @@ class MainView: UITabBarController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabbar.tintColor = .white
+        setupTabbarItem()
+    }
+    private func setupTabbarItem() {
+        
+        let tabbarItem1 = (self.tabBar.items?[0])! as UITabBarItem
+        tabbarItem1.image = UIImage(named: "comedyFace")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+        tabbarItem1.selectedImage = UIImage(named: "comedyFace1")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+        tabbarItem1.title = "Story"
+        tabbarItem1.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+        
+        let tabbarItem2 = (self.tabBar.items?[1])! as UITabBarItem
+        tabbarItem2.image = UIImage(named: "0")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+        tabbarItem2.selectedImage = UIImage(named: "1")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+        tabbarItem2.title = "Favourite"
+        tabbarItem2.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
     }
  
     func changeTopic() {

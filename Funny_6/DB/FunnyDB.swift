@@ -3,9 +3,9 @@ import Foundation
 import SQLite
 import SQLite3
 
-let DBNAME = "funny.db"
-let category = "category"
-let story = "story"
+private let DBNAME = "funny.db"
+private let category = "category"
+private let story = "story"
 
 class FunnyDB: NSObject {
     static let shared : FunnyDB = {

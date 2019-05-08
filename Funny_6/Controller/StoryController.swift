@@ -5,6 +5,7 @@ class StoryController: UIViewController {
     
     @IBOutlet weak var tableViewStory: UITableView!
     @IBOutlet weak var titleNaviStory: UINavigationItem!
+    
     var listStory: [Story]?
     var firstList: [Story] = []
     var topic: Topic?
@@ -19,24 +20,11 @@ class StoryController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.titleNaviStory.title = "Tiếu Lâm"
-        // Setup the Search Controller
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Candies"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
-    }
-    func reloadStories(topic: Topic?) {
-        self.topic = topic
-        FunnyDB.shared.getStorys(topic: topic!) { (stories) in
-            self.listStory = stories
-            self.titleNaviStory.title = topic?.name
-            self.tableViewStory.reloadData()
-        }
+        setupView()
     }
 }
 extension StoryController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
             return filteredCandies.count
@@ -45,6 +33,7 @@ extension StoryController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "StoryCell", for: indexPath) as! StoryCell
+        
         let story: Story
         if isFiltering() {
             story = filteredCandies[indexPath.row]
@@ -54,6 +43,7 @@ extension StoryController: UITableViewDelegate, UITableViewDataSource {
         if let imgStory = topic?.imgName {
             cell.imgStory.image = UIImage(named: imgStory)
         }
+        
         cell.loadInfo(story: story)
         return cell
     }
@@ -61,10 +51,14 @@ extension StoryController: UITableViewDelegate, UITableViewDataSource {
         let story = listStory?[indexPath.row] ?? firstList[indexPath.row]
         let detailController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailsController") as! DetailsController
         detailController.story = story
-        detailController.topic = topic
         self.navigationController?.pushViewController(detailController, animated: true)
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 150
+    }
 }
+
+
 extension StoryController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
@@ -82,5 +76,29 @@ extension StoryController: UISearchResultsUpdating {
     }
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
+    }
+}
+
+extension StoryController {
+    
+    private func setupView() {
+        self.titleNaviStory.title = "Tiếu Lâm"
+        setupSearchController()
+    }
+    private func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Stories"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        searchController.searchBar.barTintColor = .red
+    }
+    func reloadStories(topic: Topic?) {
+        self.topic = topic
+        FunnyDB.shared.getStorys(topic: topic!) { (stories) in
+            self.listStory = stories
+            self.titleNaviStory.title = topic?.name
+            self.tableViewStory.reloadData()
+        }
     }
 }

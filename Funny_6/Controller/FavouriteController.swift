@@ -11,11 +11,9 @@ import UIKit
 class FavouriteController: UIViewController {
     @IBOutlet weak var tableViewFavourite: UITableView!
     var listStoryFavourite: [Story] = []
-    
     override func viewWillAppear(_ animated: Bool) {
         FunnyDB.shared.getStorysFavorite { (stories) in
             self.listStoryFavourite = stories
-            print(stories.count)
         }
         self.tableViewFavourite.reloadData()
     }
@@ -32,6 +30,7 @@ extension FavouriteController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FavouriteCell", for: indexPath) as! FavouriteCell
         let story = listStoryFavourite[indexPath.row]
+        cell.story = story
         cell.loadInfo(story: story)
         return cell
     }

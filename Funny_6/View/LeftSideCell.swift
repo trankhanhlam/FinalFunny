@@ -15,6 +15,7 @@ class LeftSideCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -22,5 +23,6 @@ class LeftSideCell: UITableViewCell {
     func loadInfo(topic: Topic) {
         titleTopic.text = topic.name
         imgTopic.image = UIImage(named: "\(topic.imgName)")
+        imgTopic.layer.cornerRadius = 25
     }
 }

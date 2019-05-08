@@ -22,7 +22,7 @@ class StoryCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     func loadInfo(story: Story) {
-        titleStory.text = story.title
+        titleStory.text = story.title.uppercased()
         let storyNotRemoveTag = (story.content)
         //convert HTML
         Helper.parseHTMLContent(storyNotRemoveTag) { (true, string) in

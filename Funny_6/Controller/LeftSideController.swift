@@ -8,9 +8,11 @@
 import UIKit
 
 class LeftSideController: UIViewController {
+    
     @IBOutlet weak var tableView: UITableView!
     var listTopic: [Topic] = []
     var mainView: MainView!
+    
     override func viewWillAppear(_ animated: Bool) {
         FunnyDB.shared.retrieveTopics { (topics) in
             self.listTopic = topics
