@@ -84,6 +84,7 @@ extension StoryController {
     private func setupView() {
         self.titleNaviStory.title = "Tiếu Lâm"
         setupSearchController()
+        setupLeftBarButton()
     }
     private func setupSearchController() {
         searchController.searchResultsUpdater = self
@@ -100,5 +101,14 @@ extension StoryController {
             self.titleNaviStory.title = topic?.name
             self.tableViewStory.reloadData()
         }
+    }
+    private func setupLeftBarButton() {
+        let backButton = UIButton(type: .custom)
+        backButton.setImage(UIImage(named: "list"), for: .normal)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        backButton.addTarget(self, action: #selector(leftBarButtonTapped), for: .touchUpInside)
+    }
+    @objc func leftBarButtonTapped() {
+        slideMenuController()?.openLeft()
     }
 }
