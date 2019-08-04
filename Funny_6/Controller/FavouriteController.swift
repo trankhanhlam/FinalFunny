@@ -11,19 +11,23 @@ import UIKit
 class FavouriteController: UIViewController {
     @IBOutlet weak var tableViewFavourite: UITableView!
     var listStoryFavourite: [Story] = []
+    
+    //MARK: View lyfeCycle
     override func viewWillAppear(_ animated: Bool) {
         FunnyDB.shared.getStorysFavorite { (stories) in
             self.listStoryFavourite = stories
         }
         self.tableViewFavourite.reloadData()
+        self.tableViewFavourite.removeUnusedCell()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 }
+
 extension FavouriteController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(listStoryFavourite.count)
         return listStoryFavourite.count
     }
     
@@ -34,6 +38,7 @@ extension FavouriteController: UITableViewDataSource, UITableViewDelegate {
         cell.loadInfo(story: story)
         return cell
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let story = listStoryFavourite[indexPath.row]
         let detailController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailsController") as! DetailsController

@@ -35,7 +35,6 @@ class FunnyDB: NSObject {
                                          follow: Int(row[3] as! Int64) == 0 ? false : true,
                                          imgName: row[4] as! String))
             }
-            
             completion(topics)
         } catch {
             completion([Topic]())

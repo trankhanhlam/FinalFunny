@@ -17,7 +17,6 @@ class Helper {
         do {
             try fileManager.copyItem(atPath: bundlePath!, toPath: destPath)
         } catch {
-            print("\n")
             print(error)
         }
     }
