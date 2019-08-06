@@ -10,14 +10,17 @@ class StoryController: UIViewController {
     var firstList: [Story] = []
     var topic: Topic?
     let searchController = UISearchController(searchResultsController: nil)
-    var filteredCandies = [Story]()
+    var filteredStories = [Story]()
     
     override func viewWillAppear(_ animated: Bool) {
         FunnyDB.shared.getStorysForFirstLaunch { (stories) in
             self.firstList = stories
         }
         self.tableViewStory.reloadData()
+        self.tableViewStory.removeUnusedCell()
+        self.tableViewStory.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -27,7 +30,7 @@ extension StoryController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering() {
-            return filteredCandies.count
+            return filteredStories.count
         }
         return listStory?.count ?? firstList.count
     }
@@ -36,7 +39,7 @@ extension StoryController: UITableViewDelegate, UITableViewDataSource {
         
         let story: Story
         if isFiltering() {
-            story = filteredCandies[indexPath.row]
+            story = filteredStories[indexPath.row]
         } else {
             story = listStory?[indexPath.row] ?? firstList[indexPath.row]
         }
@@ -60,20 +63,24 @@ extension StoryController: UITableViewDelegate, UITableViewDataSource {
 
 
 extension StoryController: UISearchResultsUpdating {
+    
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
+    
     func searchBarIsEmpty() -> Bool {
         return searchController.searchBar.text?.isEmpty ?? true
     }
+    
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        filteredCandies = listStory?.filter({( story : Story) -> Bool in
+        filteredStories = listStory?.filter({( story : Story) -> Bool in
             return story.title.lowercased().contains(searchText.lowercased())
         }) ?? firstList.filter({ (story: Story) -> Bool in
             return story.title.lowercased().contains(searchText.lowercased())
         })
             self.tableViewStory.reloadData()
     }
+    
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
@@ -85,14 +92,17 @@ extension StoryController {
         self.titleNaviStory.title = "Tiếu Lâm"
         setupSearchController()
     }
+    
     private func setupSearchController() {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Stories"
+        searchController.searchBar.backgroundColor = .white
         navigationItem.searchController = searchController
         definesPresentationContext = true
         searchController.searchBar.barTintColor = .red
     }
+    
     func reloadStories(topic: Topic?) {
         self.topic = topic
         FunnyDB.shared.getStorys(topic: topic!) { (stories) in
